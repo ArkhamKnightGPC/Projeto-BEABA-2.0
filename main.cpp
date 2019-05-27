@@ -24,7 +24,7 @@ int main(){
     cin.tie(NULL);
 	ifstream Arquivo; 
     string ler;
-    Arquivo.open("Texto.txt");
+    Arquivo.open("Banco.txt");
     V.pb("/"); //barras indicam inicio e fim de palavras
 	while(Arquivo >> ler){
 		string silaba, palavra;
@@ -119,7 +119,7 @@ int main(){
 			}
 			printf("\n");
 			ofstream file_;
-			file_.open("Acronimos.txt");
+			file_.open("TextoGerado.txt");
 			for(int i=0; i<(int)para_salvar.size(); i++)
 				file_<<para_salvar[i]<<"\n";
 			file_.close();
@@ -185,7 +185,7 @@ int main(){
 				cout<<endl; cout.flush();
 			}
 			ofstream file_;
-			file_.open("Sonetos.txt");
+			file_.open("TextoGerado.txt");
 			for(int i=0; i<(int)para_salvar.size(); i++){
 				if(i==4 || i==8 || i==11)file_<<"\n";
 				file_<<para_salvar[i]<<"\n";
@@ -229,7 +229,7 @@ int main(){
 			}
 			cout<<endl; cout.flush();
 			ofstream file_;
-			file_.open("TravaLinguas.txt");
+			file_.open("TextoGerado.txt");
 			for(int i=0; i<(int)trava_lingua.size(); i++){
 				file_<<trava_lingua[i]<<" ";
 			}
