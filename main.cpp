@@ -123,7 +123,7 @@ int main(){
 			for(int i=0; i<(int)para_salvar.size(); i++)
 				file_<<para_salvar[i]<<"\n";
 			file_.close();
-			system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f Anagramas.txt");
+			system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f TextoGerado.txt");
 		}else if(modo==2){
 			int versos[4] = {4,4,3,3};
 			
@@ -191,7 +191,7 @@ int main(){
 				file_<<para_salvar[i]<<"\n";
 			}
 			file_.close();
-			system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f Sonetos.txt");
+			system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f TextoGerado.txt");
 		}else if(modo==3){
 			set<int> proibido; 
 			proibido.insert('w'-'a'); proibido.insert('y'-'a');
@@ -234,7 +234,7 @@ int main(){
 				file_<<trava_lingua[i]<<" ";
 			}
 			file_.close();
-			system("espeak -v pt+m1 -s 130 -p 15 -f TravaLinguas.txt");
+			system("espeak -v pt+m1 -s 130 -p 15 -f TextoGerado.txt");
 			cout<<endl; cout.flush();
 		}
 		cout<<"Obrigado por utilizar o Beaba!\n"; cout.flush();
