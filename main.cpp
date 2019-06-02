@@ -224,9 +224,9 @@ int main(){
 					else atual = Escolha[rand()%(int)Escolha.size()];
 				}
 				if(palavra.size()<6 && palavra.size()>2 && ja_foi.find(palavra)==ja_foi.end()){
+					ja_foi.insert(palavra);
 					palavra[0] = toupper(palavra[0]);
 					trava_lingua.pb(palavra);
-					ja_foi.insert(palavra);
 				}
 			}
 			for(int i=0; i<(int)trava_lingua.size(); i++){
