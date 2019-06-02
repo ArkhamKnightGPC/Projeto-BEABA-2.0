@@ -6,7 +6,7 @@ using namespace std;
 #define pb push_back
 #define mp make_pair
 const int ALFABETO = 'z'-'a'+1;
-const int MAXN = 5e3+9;
+const int MAXN = 1e4+9;
 const int SAMP = 1e4+9;
 
 int cnt=0;
@@ -198,7 +198,10 @@ int main(){
 			proibido.insert('x'-'a'); proibido.insert('k'-'a');
 			proibido.insert('w'-'a'); proibido.insert('q'-'a');
 			proibido.insert('z'-'a'); proibido.insert('j'-'a');
-			proibido.insert('u'-'a');
+			proibido.insert('u'-'a'); proibido.insert('o'-'a');
+			proibido.insert('e'-'a'); proibido.insert('h'-'a');
+			proibido.insert('i'-'a'); proibido.insert('a'-'a');
+			proibido.insert('g'-'a');
 			int letra_rep;
 			do{letra_rep = rand()%ALFABETO;}while(proibido.find(letra_rep)!=proibido.end());
 			int inicio_rep[20];
@@ -206,6 +209,7 @@ int main(){
 				inicio_rep[i] = comeco_anag[letra_rep][rand()%(int)comeco_anag[letra_rep].size()];
 			}
 			trava_lingua.clear();
+			set<string> ja_foi;
 			while((int)trava_lingua.size()<5){
 				int atual = inicio_rep[rand()%20];
 				string palavra; palavra.clear();
@@ -219,9 +223,10 @@ int main(){
 					if(Escolha.size()==0)atual = barra;
 					else atual = Escolha[rand()%(int)Escolha.size()];
 				}
-				if(palavra.size()<6 && palavra.size()>2){
+				if(palavra.size()<6 && palavra.size()>2 && ja_foi.find(palavra)==ja_foi.end()){
 					palavra[0] = toupper(palavra[0]);
 					trava_lingua.pb(palavra);
+					ja_foi.insert(palavra);
 				}
 			}
 			for(int i=0; i<(int)trava_lingua.size(); i++){
