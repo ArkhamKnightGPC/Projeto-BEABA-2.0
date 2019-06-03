@@ -6,7 +6,7 @@ using namespace std;
 #define pb push_back
 #define mp make_pair
 const int ALFABETO = 'z'-'a'+1;
-const int MAXN = 1e4+9;
+const int MAXN = 4e3+9;
 const int SAMP = 1e4+9;
 
 int cnt=0;
@@ -201,7 +201,6 @@ int main(){
 			proibido.insert('u'-'a'); proibido.insert('o'-'a');
 			proibido.insert('e'-'a'); proibido.insert('h'-'a');
 			proibido.insert('i'-'a'); proibido.insert('a'-'a');
-			proibido.insert('g'-'a');
 			int letra_rep;
 			do{letra_rep = rand()%ALFABETO;}while(proibido.find(letra_rep)!=proibido.end());
 			int inicio_rep[20];
