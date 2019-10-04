@@ -5,22 +5,21 @@
 #include <set>
 #include <thread>
 
-
-constexpr auto ALFABETO = 'z' - 'a' + 1;
-constexpr auto MAXN = 4e3 + 9;
-constexpr auto SAMP = 1e4 + 9;
-
-int cnt = 0;
-vector<string> V, ultimas, trava_lingua; // V armazena texto dividido em silabas para montagem do grafo
-vector<int> Escolha, verso, prov;		 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
-vector<int> comeco_anag[ALFABETO];		 //guardamos silabas de inicio de palavra para cada letra do alfabeto
-map<string, int> M;
-set<string> S; //usado para buscar palavras geradas, impedindo que sejam iguais a palavras da Train Data
-map<int, string> Mrev;
-double prob[MAXN][MAXN], soma[MAXN], prob_rev[MAXN][MAXN], soma_rev[MAXN]; //matriz de adjacencias e soma de linhas para calculo de probabilidades
-
 int main()
 {
+	constexpr auto ALFABETO = 'z' - 'a' + 1;
+	constexpr auto MAXN = 4e3 + 9;
+	constexpr auto SAMP = 1e4 + 9;
+
+	int cnt = 0;
+	vector<string> V, ultimas, trava_lingua; // V armazena texto dividido em silabas para montagem do grafo
+	vector<int> Escolha, verso, prov;		 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
+	vector<int> comeco_anag[ALFABETO];		 //guardamos silabas de inicio de palavra para cada letra do alfabeto
+	map<string, int> M;
+	set<string> S; //usado para buscar palavras geradas, impedindo que sejam iguais a palavras da Train Data
+	map<int, string> Mrev;
+	double prob[MAXN][MAXN], soma[MAXN], prob_rev[MAXN][MAXN], soma_rev[MAXN]; //matriz de adjacencias e soma de linhas para calculo de probabilidades
+
 	setlocale(LC_ALL, "Portuguese");
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
