@@ -1,6 +1,10 @@
-#include <bits/stdc++.h>
 #include <fstream>
-#include <unistd.h>
+#include <iostream>
+#include <map>
+#include <vector>
+#include <set>
+#include <thread>
+
 using namespace std;
 
 #define pb push_back
@@ -83,7 +87,7 @@ int main(){
     	int modo; scanf("%d", &modo);
     	if(modo>3){
 			cout<<"Esperamos que tenha gostado, obrigado :)\n"; cout.flush();
-			sleep(3);
+            std::this_thread::sleep_for(3s);
 			break;
 		}else if(modo==1){
 			string palavra;
