@@ -1,3 +1,4 @@
+#include <array>
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -7,6 +8,12 @@
 #include <thread>
 
 using namespace std::chrono_literals;
+
+template <typename Tipo, int Colunas, int Linhas>
+using matriz = std::array<std::array<Tipo, Colunas>, Linhas>;
+
+template <typename Tipo, int Comprimento>
+using vetor = std::array<Tipo, Comprimento>;
 
 int main()
 {
@@ -21,9 +28,10 @@ int main()
 	std::map<std::string, int> M;
 	std::set<std::string> S; //usado para buscar palavras geradas, impedindo que sejam iguais a palavras da Train Data
 	std::map<int, std::string> Mrev;
-	double prob[MAXN][MAXN], soma[MAXN], prob_rev[MAXN][MAXN], soma_rev[MAXN]; //matriz de adjacencias e soma de linhas para calculo de probabilidades
+    static matriz<double, MAXN, MAXN> prob, prob_rev; //matriz de adjacencias
+    static vetor<double, MAXN> soma, soma_rev;        // e soma de linhas para calculo de probabilidades
 
-	setlocale(LC_ALL, "Portuguese");
+	//setlocale(LC_ALL, "Portuguese");
 	std::ios_base::sync_with_stdio(false);
 	std::cin.tie(NULL);
 	std::ifstream Arquivo;
