@@ -5,10 +5,7 @@
 #include <set>
 #include <thread>
 
-using namespace std;
 
-#define pb push_back
-#define mp make_pair
 const int ALFABETO = 'z' - 'a' + 1;
 const int MAXN = 4e3 + 9;
 const int SAMP = 1e4 + 9;
@@ -30,7 +27,7 @@ int main()
 	ifstream Arquivo;
 	string ler;
 	Arquivo.open("Banco.txt");
-	V.pb("/"); //barras indicam inicio e fim de palavras
+	V.push_back("/"); //barras indicam inicio e fim de palavras
 	while (Arquivo >> ler)
 	{
 		string silaba, palavra;
@@ -39,7 +36,7 @@ int main()
 			ler[i] = tolower(ler[i]); //Trabalhamos apenas com letras minusculas
 			if (ler[i] == '-')
 			{
-				V.pb(silaba);
+				V.push_back(silaba);
 				silaba.clear();
 			}
 			else
@@ -51,9 +48,9 @@ int main()
 				}
 			}
 		}
-		V.pb(silaba);
-		ultimas.pb(silaba); //silaba final de palavra, usaremos para rimar
-		V.pb("/");
+		V.push_back(silaba);
+		ultimas.push_back(silaba); //silaba final de palavra, usaremos para rimar
+		V.push_back("/");
 		S.insert(palavra);
 		ler.clear();
 	}
@@ -64,8 +61,8 @@ int main()
 		{
 			if (V[i] == "/")
 				barra = cnt;
-			M.insert(mp(V[i], cnt)); // sorteamos inteiros, depois usamos seu equivalente em string para imprimir texto
-			Mrev.insert(mp(cnt, V[i]));
+			M.insert(make_pair(V[i], cnt)); // sorteamos inteiros, depois usamos seu equivalente em string para imprimir texto
+			Mrev.insert(make_pair(cnt, V[i]));
 			cnt++;
 		}
 	}
@@ -81,7 +78,7 @@ int main()
 		soma_rev[v2]++;
 		if (v1 == barra && s2[0] - 'a' >= 0)
 		{ //estamos no comeco de uma palavra, fazemos pre-processamento para geracao de anagramas
-			comeco_anag[s2[0] - 'a'].pb(v2);
+			comeco_anag[s2[0] - 'a'].push_back(v2);
 		}
 	}
 	for (int i = 1; i < cnt; i++)
@@ -142,7 +139,7 @@ int main()
 					Escolha.clear();
 					for (int j = 0; j < cnt; j++)
 						for (int k = 1; k <= prob[atual][j]; k++)
-							Escolha.pb(j); //preenchemos nosso espaco amostral com base nas probabilidades
+							Escolha.push_back(j); //preenchemos nosso espaco amostral com base nas probabilidades
 					if (Escolha.size() == 0)
 						break;
 					atual = Escolha[rand() % (int)Escolha.size()];
@@ -157,7 +154,7 @@ int main()
 					anagrama[0] = toupper(anagrama[0]);
 					cout << anagrama << endl;
 					cout.flush();
-					para_salvar.pb(anagrama);
+					para_salvar.push_back(anagrama);
 				}
 			}
 			printf("\n");
@@ -225,11 +222,11 @@ int main()
 						do
 						{
 							if (atual != barra)
-								prov.pb(atual);
+								prov.push_back(atual);
 							Escolha.clear();
 							for (int l = 0; l < cnt; l++)
 								for (int k = 1; k <= prob_rev[atual][l]; k++)
-									Escolha.pb(l); //preenchemos nosso espaco amostral com base nas probabilidades
+									Escolha.push_back(l); //preenchemos nosso espaco amostral com base nas probabilidades
 							if (Escolha.size() == 0)
 								atual = barra;
 							else
@@ -240,9 +237,9 @@ int main()
 						{
 							for (int k = 0; k < (int)prov.size(); k++)
 							{
-								verso.pb(prov[k]);
+								verso.push_back(prov[k]);
 							}
-							verso.pb(barra);
+							verso.push_back(barra);
 							flag = false;
 						}
 					}
@@ -261,7 +258,7 @@ int main()
 						cout << Mrev[verso[k]];
 						cout.flush();
 					}
-					para_salvar.pb(aux);
+					para_salvar.push_back(aux);
 					cout << endl;
 					cout.flush();
 				}
@@ -321,7 +318,7 @@ int main()
 					Escolha.clear();
 					for (int i = 0; i < cnt; i++)
 						for (int k = 1; k <= prob[atual][i]; k++)
-							Escolha.pb(i);
+							Escolha.push_back(i);
 					if (Escolha.size() == 0)
 						atual = barra;
 					else
@@ -331,7 +328,7 @@ int main()
 				{
 					ja_foi.insert(palavra);
 					palavra[0] = toupper(palavra[0]);
-					trava_lingua.pb(palavra);
+					trava_lingua.push_back(palavra);
 				}
 			}
 			for (int i = 0; i < (int)trava_lingua.size(); i++)
