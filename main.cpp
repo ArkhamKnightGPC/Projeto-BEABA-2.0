@@ -1,3 +1,4 @@
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -5,31 +6,33 @@
 #include <set>
 #include <thread>
 
+using namespace std::chrono_literals;
+
 int main()
 {
-	constexpr auto ALFABETO = 'z' - 'a' + 1;
-	constexpr auto MAXN = 4e3 + 9;
-	constexpr auto SAMP = 1e4 + 9;
+	constexpr size_t ALFABETO = 'z' - 'a' + 1;
+	constexpr size_t MAXN = 4e3 + 9;
+	constexpr size_t SAMP = 1e4 + 9;
 
 	int cnt = 0;
-	vector<string> V, ultimas, trava_lingua; // V armazena texto dividido em silabas para montagem do grafo
-	vector<int> Escolha, verso, prov;		 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
-	vector<int> comeco_anag[ALFABETO];		 //guardamos silabas de inicio de palavra para cada letra do alfabeto
-	map<string, int> M;
-	set<string> S; //usado para buscar palavras geradas, impedindo que sejam iguais a palavras da Train Data
-	map<int, string> Mrev;
+	std::vector<std::string> V, ultimas, trava_lingua; // V armazena texto dividido em silabas para montagem do grafo
+	std::vector<int> Escolha, verso, prov;		 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
+	std::vector<int> comeco_anag[ALFABETO];		 //guardamos silabas de inicio de palavra para cada letra do alfabeto
+	std::map<std::string, int> M;
+	std::set<std::string> S; //usado para buscar palavras geradas, impedindo que sejam iguais a palavras da Train Data
+	std::map<int, std::string> Mrev;
 	double prob[MAXN][MAXN], soma[MAXN], prob_rev[MAXN][MAXN], soma_rev[MAXN]; //matriz de adjacencias e soma de linhas para calculo de probabilidades
 
 	setlocale(LC_ALL, "Portuguese");
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	ifstream Arquivo;
-	string ler;
+	std::ios_base::sync_with_stdio(false);
+	std::cin.tie(NULL);
+	std::ifstream Arquivo;
+	std::string ler;
 	Arquivo.open("Banco.txt");
 	V.push_back("/"); //barras indicam inicio e fim de palavras
 	while (Arquivo >> ler)
 	{
-		string silaba, palavra;
+		std::string silaba, palavra;
 		for (int i = 0; i < (int)ler.size(); i++)
 		{
 			ler[i] = tolower(ler[i]); //Trabalhamos apenas com letras minusculas
@@ -60,15 +63,15 @@ int main()
 		{
 			if (V[i] == "/")
 				barra = cnt;
-			M.insert(make_pair(V[i], cnt)); // sorteamos inteiros, depois usamos seu equivalente em string para imprimir texto
+			M.insert(make_pair(V[i], cnt)); // sorteamos inteiros, depois usamos seu equivalente em std::string para imprimir texto
 			Mrev.insert(make_pair(cnt, V[i]));
 			cnt++;
 		}
 	}
 	for (int i = 1; i < (int)V.size(); i++)
 	{
-		string s1 = V[i - 1];
-		string s2 = V[i];
+		std::string s1 = V[i - 1];
+		std::string s2 = V[i];
 		int v1 = M[s1];
 		int v2 = M[s2];
 		prob[v1][v2]++;
@@ -89,46 +92,46 @@ int main()
 		}
 	}
 	srand(time(NULL));
-	cout << "Bem vindo ao Projeto BEABA 2.0\n";
-	cout.flush();
+	std::cout << "Bem vindo ao Projeto BEABA 2.0\n";
+	std::cout.flush();
 	while (true)
 	{
-		cout << "1 -> Gerar acronimo\n";
-		cout.flush();
-		cout << "2 -> Gerar soneto\n";
-		cout.flush();
-		cout << "3 -> Gerar TravaLingua\n";
-		cout.flush();
-		cout << "Para sair do programa, digite outro numero qualquer\n";
-		cout.flush();
-		cout << "Escolha uma das funcionalidades : ";
-		cout.flush();
+		std::cout << "1 -> Gerar acronimo\n";
+		std::cout.flush();
+		std::cout << "2 -> Gerar soneto\n";
+		std::cout.flush();
+		std::cout << "3 -> Gerar TravaLingua\n";
+		std::cout.flush();
+		std::cout << "Para sair do programa, digite outro numero qualquer\n";
+		std::cout.flush();
+		std::cout << "Escolha uma das funcionalidades : ";
+		std::cout.flush();
 		int modo;
 		scanf("%d", &modo);
 		if (modo > 3)
 		{
-			cout << "Esperamos que tenha gostado, obrigado :)\n";
-			cout.flush();
+			std::cout << "Esperamos que tenha gostado, obrigado :)\n";
+			std::cout.flush();
 			std::this_thread::sleep_for(3s);
 			break;
 		}
 		else if (modo == 1)
 		{
-			string palavra;
-			cout << "Ok, Digite a palavra: ";
-			cout.flush();
-			cin >> palavra;
-			cout << "\n";
-			cout.flush();
-			vector<string> para_salvar;
+			std::string palavra;
+			std::cout << "Ok, Digite a palavra: ";
+			std::cout.flush();
+			std::cin >> palavra;
+			std::cout << "\n";
+			std::cout.flush();
+			std::vector<std::string> para_salvar;
 			for (int i = 0; i < (int)palavra.size(); i++)
 			{
 				palavra[i] = tolower(palavra[i]);
 				int silaba_inicial = comeco_anag[palavra[i] - 'a'][rand() % (int)comeco_anag[palavra[i] - 'a'].size()];
-				string silaba = Mrev[silaba_inicial];
+				std::string silaba = Mrev[silaba_inicial];
 				int atual = silaba_inicial;
 				int minimo_silabas = 0;
-				string anagrama;
+				std::string anagrama;
 				anagrama.clear();
 				do
 				{
@@ -151,13 +154,13 @@ int main()
 				else
 				{
 					anagrama[0] = toupper(anagrama[0]);
-					cout << anagrama << endl;
-					cout.flush();
+					std::cout << anagrama << std::endl;
+					std::cout.flush();
 					para_salvar.push_back(anagrama);
 				}
 			}
 			printf("\n");
-			ofstream file_;
+			std::ofstream file_;
 			file_.open("TextoGerado.txt");
 			for (int i = 0; i < (int)para_salvar.size(); i++)
 				file_ << para_salvar[i] << "\n";
@@ -169,7 +172,7 @@ int main()
 			int versos[4] = {4, 4, 3, 3};
 
 			int rima[4][4];
-			set<int> rimas;
+			std::set<int> rimas;
 			rima[0][0] = M[ultimas[rand() % (int)ultimas.size()]];
 			rimas.insert(rima[0][0]);
 			rima[0][3] = rima[0][0];
@@ -201,9 +204,9 @@ int main()
 			rima[3][2] = rima[2][1];
 
 			// o esquema de rimas do soneto eh abba abba cdc dcd
-			vector<string> para_salvar;
-			cout << "\n";
-			cout.flush();
+			std::vector<std::string> para_salvar;
+			std::cout << "\n";
+			std::cout.flush();
 			for (int i = 0; i < 4; i++)
 			{
 				for (int j = 0; j < versos[i]; j++)
@@ -242,29 +245,29 @@ int main()
 							flag = false;
 						}
 					}
-					string aux;
+					std::string aux;
 					aux.clear();
 					for (int k = (int)verso.size() - 2; k >= 0; k--)
 					{
 						if (verso[k] == barra)
 						{
 							aux += " ";
-							cout << " ";
-							cout.flush();
+							std::cout << " ";
+							std::cout.flush();
 							continue;
 						}
 						aux += Mrev[verso[k]];
-						cout << Mrev[verso[k]];
-						cout.flush();
+						std::cout << Mrev[verso[k]];
+						std::cout.flush();
 					}
 					para_salvar.push_back(aux);
-					cout << endl;
-					cout.flush();
+					std::cout << std::endl;
+					std::cout.flush();
 				}
-				cout << endl;
-				cout.flush();
+				std::cout << std::endl;
+				std::cout.flush();
 			}
-			ofstream file_;
+			std::ofstream file_;
 			file_.open("TextoGerado.txt");
 			for (int i = 0; i < (int)para_salvar.size(); i++)
 			{
@@ -277,7 +280,7 @@ int main()
 		}
 		else if (modo == 3)
 		{
-			set<int> proibido;
+			std::set<int> proibido;
 			proibido.insert('w' - 'a');
 			proibido.insert('y' - 'a');
 			proibido.insert('x' - 'a');
@@ -303,11 +306,11 @@ int main()
 				inicio_rep[i] = comeco_anag[letra_rep][rand() % (int)comeco_anag[letra_rep].size()];
 			}
 			trava_lingua.clear();
-			set<string> ja_foi;
+			std::set<std::string> ja_foi;
 			while ((int)trava_lingua.size() < 5)
 			{
 				int atual = inicio_rep[rand() % 20];
-				string palavra;
+				std::string palavra;
 				palavra.clear();
 				while (true)
 				{
@@ -332,12 +335,12 @@ int main()
 			}
 			for (int i = 0; i < (int)trava_lingua.size(); i++)
 			{
-				cout << trava_lingua[i] << " ";
-				cout.flush();
+				std::cout << trava_lingua[i] << " ";
+				std::cout.flush();
 			}
-			cout << endl;
-			cout.flush();
-			ofstream file_;
+			std::cout << std::endl;
+			std::cout.flush();
+			std::ofstream file_;
 			file_.open("TextoGerado.txt");
 			for (int i = 0; i < (int)trava_lingua.size(); i++)
 			{
@@ -345,11 +348,11 @@ int main()
 			}
 			file_.close();
 			system("espeak -v pt+m1 -s 130 -p 15 -f TextoGerado.txt");
-			cout << endl;
-			cout.flush();
+			std::cout << std::endl;
+			std::cout.flush();
 		}
-		cout << "Obrigado por utilizar o Beaba!\n";
-		cout.flush();
+		std::cout << "Obrigado por utilizar o Beaba!\n";
+		std::cout.flush();
 	}
 	return 0;
 }
