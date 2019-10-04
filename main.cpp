@@ -6,9 +6,9 @@
 #include <thread>
 
 
-const int ALFABETO = 'z' - 'a' + 1;
-const int MAXN = 4e3 + 9;
-const int SAMP = 1e4 + 9;
+constexpr auto ALFABETO = 'z' - 'a' + 1;
+constexpr auto MAXN = 4e3 + 9;
+constexpr auto SAMP = 1e4 + 9;
 
 int cnt = 0;
 vector<string> V, ultimas, trava_lingua; // V armazena texto dividido em silabas para montagem do grafo
