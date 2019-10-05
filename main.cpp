@@ -48,7 +48,7 @@ int main()
 	constexpr size_t SAMP = 1e4 + 9;
 
 	int cnt = 0;
-	std::vector<std::string> V, ultimas, trava_lingua;   // V armazena texto dividido em silabas para montagem do grafo
+	std::vector<std::string> silabas, ultimas, trava_lingua;   // V armazena texto dividido em silabas para montagem do grafo
     std::vector<int> Escolha, verso, prov;                 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
     std::array<std::vector<int>, ALFABETO> comeco_anag;	 //guardamos silabas de inicio de palavra para cada letra do alfabeto
 	std::map<std::string, int> M;
@@ -69,7 +69,7 @@ int main()
         return 1;
     }
 
-	V.push_back("/"); //barras indicam inicio e fim de palavras
+	silabas.push_back("/"); //barras indicam inicio e fim de palavras
 
 	while (Arquivo >> ler)
 	{
@@ -79,7 +79,7 @@ int main()
 			letra = tolower(letra); //Trabalhamos apenas com letras minusculas
 			if (letra == '-')
 			{
-				V.push_back(silaba);
+				silabas.push_back(silaba);
 				silaba.clear();
 			}
 			else
@@ -91,16 +91,16 @@ int main()
 				}
 			}
 		}
-		V.push_back(silaba);
+		silabas.push_back(silaba);
 		ultimas.push_back(silaba); //silaba final de palavra, usaremos para rimar
-		V.push_back("/");
+		silabas.push_back("/");
 		universoDePalavras.insert(palavra);
 		ler.clear();
 	}
 
     int barra = maxNum<int>();
 
-	for (auto palavra : V)
+	for (auto palavra : silabas)
 	{
 		if (M.find(palavra) == M.end())
 		{
@@ -112,10 +112,10 @@ int main()
 		}
 	}
 
-	for (int i = 1; i < (int)V.size(); i++)
+	for (int i = 1; i < (int)silabas.size(); i++)
 	{
-		std::string s1 = V[i - 1];
-		std::string s2 = V[i];
+		std::string s1 = silabas[i - 1];
+		std::string s2 = silabas[i];
 		int v1 = M[s1];
 		int v2 = M[s2];
 		prob[v1][v2]++;
