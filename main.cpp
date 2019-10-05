@@ -46,7 +46,7 @@ int main()
 	constexpr size_t SAMP = 1e4 + 9;
 
 	int cnt = 0;
-	std::vector<std::string> silabas, ultimas, trava_lingua;   // V armazena texto dividido em silabas para montagem do grafo
+	std::vector<std::string> silabas, ultimas, trava_lingua;   // silabas armazena texto dividido em silabas para montagem do grafo
     std::vector<int> Escolha, verso, prov;                 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
     std::array<std::vector<int>, ALFABETO> comeco_anag;	 //guardamos silabas de inicio de palavra para cada letra do alfabeto
 	std::map<std::string, int> M;
