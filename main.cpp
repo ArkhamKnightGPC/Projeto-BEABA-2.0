@@ -2,6 +2,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <map>
 #include <vector>
 #include <set>
@@ -15,6 +16,9 @@ using matriz = std::array<std::array<Tipo, Colunas>, Linhas>;
 template <typename Tipo, int Comprimento>
 using vetor = std::array<Tipo, Comprimento>;
 
+template <typename Tipo>
+constexpr auto maxNum = []() { return std::numeric_limits<Tipo>::max(); };
+
 int main()
 {
 	constexpr size_t ALFABETO = 'z' - 'a' + 1;
@@ -22,9 +26,9 @@ int main()
 	constexpr size_t SAMP = 1e4 + 9;
 
 	int cnt = 0;
-	std::vector<std::string> V, ultimas, trava_lingua; // V armazena texto dividido em silabas para montagem do grafo
-	std::vector<int> Escolha, verso, prov;		 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
-	std::vector<int> comeco_anag[ALFABETO];		 //guardamos silabas de inicio de palavra para cada letra do alfabeto
+	std::vector<std::string> V, ultimas, trava_lingua;   // V armazena texto dividido em silabas para montagem do grafo
+    std::vector<int> Escolha, verso, prov;                 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
+    std::array<std::vector<int>, ALFABETO> comeco_anag;	 //guardamos silabas de inicio de palavra para cada letra do alfabeto
 	std::map<std::string, int> M;
 	std::set<std::string> S; //usado para buscar palavras geradas, impedindo que sejam iguais a palavras da Train Data
 	std::map<int, std::string> Mrev;
@@ -37,6 +41,10 @@ int main()
 	std::ifstream Arquivo;
 	std::string ler;
 	Arquivo.open("Banco.txt");
+    if (Arquivo.fail()) {
+        std::cout << "Erro: Banco.txt não econtrado!" << std::endl;
+        return 1;
+    }
 	V.push_back("/"); //barras indicam inicio e fim de palavras
 	while (Arquivo >> ler)
 	{
@@ -64,7 +72,7 @@ int main()
 		S.insert(palavra);
 		ler.clear();
 	}
-	int barra;
+    int barra = maxNum<int>();
 	for (int i = 0; i < (int)V.size(); i++)
 	{
 		if (M.find(V[i]) == M.end())
