@@ -8,8 +8,6 @@
 #include <set>
 #include <thread>
 
-using namespace std::chrono_literals;
-
 template <typename Tipo, int Colunas, int Linhas>
 using matriz = std::array<std::array<Tipo, Colunas>, Linhas>;
 
@@ -387,7 +385,10 @@ int main()
             default: {
                 std::cout << "Esperamos que tenha gostado, obrigado :)\n";
                 std::cout.flush();
+
+				using namespace std::chrono_literals;
 				std::this_thread::sleep_for(3s);
+				
                 return 0;
             }
         }
