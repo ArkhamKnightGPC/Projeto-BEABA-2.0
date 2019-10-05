@@ -5,6 +5,7 @@
 #include <limits>
 #include <map>
 #include <vector>
+#include <random>
 #include <set>
 #include <thread>
 
@@ -16,6 +17,17 @@ using vetor = std::array<Tipo, Comprimento>;
 
 template <typename Tipo>
 constexpr auto maxNum = []() { return std::numeric_limits<Tipo>::max(); };
+
+struct RandEngine
+{
+private:
+    std::mt19937 randEngine;
+public:
+	uint32_t operator()() { return randEngine(); }
+	void seed(uint32_t seedVal) { randEngine.seed(seedVal); }
+};
+
+RandEngine mtRand;
 
 enum OpcaoMenu : int {
     Acronimo = 1,
@@ -72,7 +84,8 @@ int main()
 	while (Arquivo >> ler)
 	{
 		std::string silaba, palavra;
-		for (char letra : ler)
+        
+		for (char& letra : ler)
 		{
 			letra = tolower(letra); //Trabalhamos apenas com letras minusculas
 			if (letra == '-')
@@ -98,7 +111,7 @@ int main()
 
     int barra = maxNum<int>();
 
-	for (auto palavra : silabas)
+	for (const auto& palavra : silabas)
 	{
 		if (M.find(palavra) == M.end())
 		{
@@ -151,10 +164,10 @@ int main()
                 std::cout << "\n";
                 std::cout.flush();
                 std::vector<std::string> para_salvar;
-                for (int i = 0; i < (int)palavra.size(); i++)
+                for (size_t i = 0; i < palavra.size(); i++)
                 {
                     palavra[i] = tolower(palavra[i]);
-                    int silaba_inicial = comeco_anag[palavra[i] - 'a'][rand() % (int)comeco_anag[palavra[i] - 'a'].size()];
+                    int silaba_inicial = comeco_anag[palavra[i] - 'a'][mtRand() % (int)comeco_anag[palavra[i] - 'a'].size()];
                     std::string silaba = Mrev[silaba_inicial];
                     int atual = silaba_inicial;
                     int minimo_silabas = 0;
@@ -171,7 +184,7 @@ int main()
                                 Escolha.push_back(j); //preenchemos nosso espaco amostral com base nas probabilidades
                         if (Escolha.size() == 0)
                             break;
-                        atual = Escolha[rand() % (int)Escolha.size()];
+                        atual = Escolha[mtRand() % (int)Escolha.size()];
                         silaba = Mrev[atual];
                     } while (atual != barra);
                     if (anagrama.size() < 3 || anagrama.size() > 8 || universoDePalavras.find(anagrama) != universoDePalavras.end())
@@ -189,8 +202,8 @@ int main()
                 printf("\n");
                 std::ofstream file_;
                 file_.open("TextoGerado.txt");
-                for (const auto& palavra : para_salvar)
-                    file_ << palavra << "\n";
+                for (const auto& linha : para_salvar)
+                    file_ << linha << "\n";
                 file_.close();
                 system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f TextoGerado.txt");
             }
@@ -201,7 +214,7 @@ int main()
 
                 int rima[4][4];
                 std::set<int> rimas;
-                rima[0][0] = M[ultimas[rand() % (int)ultimas.size()]];
+                rima[0][0] = M[ultimas[mtRand() % (int)ultimas.size()]];
                 rimas.insert(rima[0][0]);
                 rima[0][3] = rima[0][0];
                 rima[1][0] = rima[0][0];
@@ -209,7 +222,7 @@ int main()
 
                 do
                 {
-                    rima[0][1] = M[ultimas[rand() % (int)ultimas.size()]];
+                    rima[0][1] = M[ultimas[mtRand() % (int)ultimas.size()]];
                 } while (rimas.find(rima[0][1]) != rimas.end());
                 rimas.insert(rima[0][1]);
                 rima[0][2] = rima[0][1];
@@ -218,7 +231,7 @@ int main()
 
                 do
                 {
-                    rima[2][0] = M[ultimas[rand() % (int)ultimas.size()]];
+                    rima[2][0] = M[ultimas[mtRand() % (int)ultimas.size()]];
                 } while (rimas.find(rima[2][0]) != rimas.end());
                 rimas.insert(rima[2][0]);
                 rima[2][2] = rima[2][0];
@@ -226,7 +239,7 @@ int main()
 
                 do
                 {
-                    rima[2][1] = M[ultimas[rand() % (int)ultimas.size()]];
+                    rima[2][1] = M[ultimas[mtRand() % (int)ultimas.size()]];
                 } while (rimas.find(rima[2][1]) != rimas.end());
                 rima[3][0] = rima[2][1];
                 rima[3][2] = rima[2][1];
@@ -260,7 +273,7 @@ int main()
                                 if (Escolha.size() == 0)
                                     atual = barra;
                                 else
-                                    atual = Escolha[rand() % (int)Escolha.size()];
+                                    atual = Escolha[mtRand() % (int)Escolha.size()];
                             } while (atual != barra);
 
                             if (prov.size() >= 1 && prov.size() <= 5 && prov.size() + verso.size() < 12)
@@ -327,18 +340,18 @@ int main()
                 int letra_rep;
                 do
                 {
-                    letra_rep = rand() % ALFABETO;
+                    letra_rep = mtRand() % ALFABETO;
                 } while (proibido.find(letra_rep) != proibido.end());
                 int inicio_rep[20];
                 for (int i = 0; i < 20; i++)
                 {
-                    inicio_rep[i] = comeco_anag[letra_rep][rand() % comeco_anag[letra_rep].size()];
+                    inicio_rep[i] = comeco_anag[letra_rep][mtRand() % comeco_anag[letra_rep].size()];
                 }
                 trava_lingua.clear();
                 std::set<std::string> ja_foi;
                 while (trava_lingua.size() < 5)
                 {
-                    int atual = inicio_rep[rand() % 20];
+                    int atual = inicio_rep[mtRand() % 20];
                     std::string palavra;
                     palavra.clear();
                     while (atual != barra)
@@ -351,7 +364,7 @@ int main()
                         if (Escolha.size() == 0)
                             atual = barra;
                         else
-                            atual = Escolha[rand() % (int)Escolha.size()];
+                            atual = Escolha[mtRand() % (int)Escolha.size()];
                     }
                     if (palavra.size() < 6 && palavra.size() > 2 && ja_foi.find(palavra) == ja_foi.end())
                     {
