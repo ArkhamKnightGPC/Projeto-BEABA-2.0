@@ -64,6 +64,8 @@ int main()
 	std::map<std::string, int> M;
 	std::set<std::string> universoDePalavras;
 	std::map<int, std::string> Mrev;
+	// As variáveis abaixo precisam ser static, pois em alguns sistemas operacionais
+	// alocar 70MB de váriaveis locais trava o programa antes mesmo dele começar a execução.
     static matriz<double, MAXN, MAXN> prob, prob_rev; //matriz de adjacencias
     static vetor<double, MAXN> soma, soma_rev;        // e soma de linhas para calculo de probabilidades
 
