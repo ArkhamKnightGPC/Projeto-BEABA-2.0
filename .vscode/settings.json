@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.s": "mads",
-        "*.h": "c",
-        "cstdint": "cpp"
-    }
-}
