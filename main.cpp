@@ -110,7 +110,7 @@ int main()
 		}
 	}
 
-	for (int i = 1; i < (int)silabas.size(); i++)
+	for (size_t i = 1; i < silabas.size(); i++)
 	{
 		std::string s1 = silabas[i - 1];
 		std::string s2 = silabas[i];
@@ -135,7 +135,7 @@ int main()
 		}
 	}
 
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 	std::cout << "Bem vindo ao Projeto BEABA 2.0\n";
 	std::cout.flush();
 
@@ -189,8 +189,8 @@ int main()
                 printf("\n");
                 std::ofstream file_;
                 file_.open("TextoGerado.txt");
-                for (int i = 0; i < (int)para_salvar.size(); i++)
-                    file_ << para_salvar[i] << "\n";
+                for (const auto& palavra : para_salvar)
+                    file_ << palavra << "\n";
                 file_.close();
                 system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f TextoGerado.txt");
             }
@@ -242,7 +242,7 @@ int main()
                         verso.clear();
                         bool flag = true;
                         int atual;
-                        while ((int)verso.size() < 10)
+                        while (verso.size() < 10)
                         {
                             if (flag)
                                 atual = rima[i][j];
@@ -263,11 +263,11 @@ int main()
                                     atual = Escolha[rand() % (int)Escolha.size()];
                             } while (atual != barra);
 
-                            if (prov.size() >= 1 && prov.size() <= 5 && (int)prov.size() + (int)verso.size() < 12)
+                            if (prov.size() >= 1 && prov.size() <= 5 && prov.size() + verso.size() < 12)
                             {
-                                for (int k = 0; k < (int)prov.size(); k++)
+                                for (auto indice : prov)
                                 {
-                                    verso.push_back(prov[k]);
+                                    verso.push_back(indice);
                                 }
                                 verso.push_back(barra);
                                 flag = false;
@@ -275,7 +275,7 @@ int main()
                         }
                         std::string aux;
                         aux.clear();
-                        for (int k = (int)verso.size() - 2; k >= 0; k--)
+                        for (size_t k = verso.size() - 2; k >= 0; k--)
                         {
                             if (verso[k] == barra)
                             {
@@ -297,7 +297,7 @@ int main()
                 }
                 std::ofstream file_;
                 file_.open("TextoGerado.txt");
-                for (int i = 0; i < (int)para_salvar.size(); i++)
+                for (size_t i = 0; i < para_salvar.size(); i++)
                 {
                     if (i == 4 || i == 8 || i == 11)
                         file_ << "\n";
@@ -332,19 +332,17 @@ int main()
                 int inicio_rep[20];
                 for (int i = 0; i < 20; i++)
                 {
-                    inicio_rep[i] = comeco_anag[letra_rep][rand() % (int)comeco_anag[letra_rep].size()];
+                    inicio_rep[i] = comeco_anag[letra_rep][rand() % comeco_anag[letra_rep].size()];
                 }
                 trava_lingua.clear();
                 std::set<std::string> ja_foi;
-                while ((int)trava_lingua.size() < 5)
+                while (trava_lingua.size() < 5)
                 {
                     int atual = inicio_rep[rand() % 20];
                     std::string palavra;
                     palavra.clear();
-                    while (true)
+                    while (atual != barra)
                     {
-                        if (atual == barra)
-                            break;
                         palavra += Mrev[atual];
                         Escolha.clear();
                         for (int i = 0; i < cnt; i++)
@@ -362,18 +360,18 @@ int main()
                         trava_lingua.push_back(palavra);
                     }
                 }
-                for (int i = 0; i < (int)trava_lingua.size(); i++)
+                for (const auto& palavra : trava_lingua)
                 {
-                    std::cout << trava_lingua[i] << " ";
+                    std::cout << palavra << " ";
                     std::cout.flush();
                 }
                 std::cout << std::endl;
                 std::cout.flush();
                 std::ofstream file_;
                 file_.open("TextoGerado.txt");
-                for (int i = 0; i < (int)trava_lingua.size(); i++)
+                for (const auto& palavra : trava_lingua)
                 {
-                    file_ << trava_lingua[i] << " ";
+                    file_ << palavra << " ";
                 }
                 file_.close();
                 system("espeak -v pt+m1 -s 130 -p 15 -f TextoGerado.txt");
