@@ -19,6 +19,28 @@ using vetor = std::array<Tipo, Comprimento>;
 template <typename Tipo>
 constexpr auto maxNum = []() { return std::numeric_limits<Tipo>::max(); };
 
+enum OpcaoMenu : int {
+    Acronimo = 1,
+    Soneto = 2,
+    TravaLingua = 3
+};
+
+OpcaoMenu MenuPrincipal() {
+    std::cout << "1 -> Gerar acronimo\n";
+    std::cout.flush();
+    std::cout << "2 -> Gerar soneto\n";
+    std::cout.flush();
+    std::cout << "3 -> Gerar TravaLingua\n";
+    std::cout.flush();
+    std::cout << "Para sair do programa, digite outro numero qualquer\n";
+    std::cout.flush();
+    std::cout << "Escolha uma das funcionalidades : ";
+    std::cout.flush();
+    OpcaoMenu modo;
+    scanf("%d", &modo);
+    return modo;
+}
+
 int main()
 {
 	constexpr size_t ALFABETO = 'z' - 'a' + 1;
@@ -30,7 +52,7 @@ int main()
     std::vector<int> Escolha, verso, prov;                 //Escolha eh vetor usado como espaco amostral para sorteio de silabas
     std::array<std::vector<int>, ALFABETO> comeco_anag;	 //guardamos silabas de inicio de palavra para cada letra do alfabeto
 	std::map<std::string, int> M;
-	std::set<std::string> S; //usado para buscar palavras geradas, impedindo que sejam iguais a palavras da Train Data
+	std::set<std::string> universoDePalavras;
 	std::map<int, std::string> Mrev;
     static matriz<double, MAXN, MAXN> prob, prob_rev; //matriz de adjacencias
     static vetor<double, MAXN> soma, soma_rev;        // e soma de linhas para calculo de probabilidades
@@ -72,7 +94,7 @@ int main()
 		V.push_back(silaba);
 		ultimas.push_back(silaba); //silaba final de palavra, usaremos para rimar
 		V.push_back("/");
-		S.insert(palavra);
+		universoDePalavras.insert(palavra);
 		ler.clear();
 	}
 
@@ -121,18 +143,8 @@ int main()
 
 	for (;;)
 	{
-		std::cout << "1 -> Gerar acronimo\n";
-		std::cout.flush();
-		std::cout << "2 -> Gerar soneto\n";
-		std::cout.flush();
-		std::cout << "3 -> Gerar TravaLingua\n";
-		std::cout.flush();
-		std::cout << "Para sair do programa, digite outro numero qualquer\n";
-		std::cout.flush();
-		std::cout << "Escolha uma das funcionalidades : ";
-		std::cout.flush();
-		int modo;
-		scanf("%d", &modo);
+        int modo = MenuPrincipal();
+
 		if (modo > 3)
 		{
 			std::cout << "Esperamos que tenha gostado, obrigado :)\n";
@@ -140,7 +152,7 @@ int main()
 			std::this_thread::sleep_for(3s);
 			break;
 		}
-		else if (modo == 1)
+		else if (modo == Acronimo)
 		{
 			std::string palavra;
 			std::cout << "Ok, Digite a palavra: ";
@@ -172,7 +184,7 @@ int main()
 					atual = Escolha[rand() % (int)Escolha.size()];
 					silaba = Mrev[atual];
 				} while (atual != barra);
-				if (anagrama.size() < 3 || anagrama.size() > 8 || S.find(anagrama) != S.end())
+				if (anagrama.size() < 3 || anagrama.size() > 8 || universoDePalavras.find(anagrama) != universoDePalavras.end())
 				{
 					i--;
 				}
@@ -192,7 +204,7 @@ int main()
 			file_.close();
 			system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f TextoGerado.txt");
 		}
-		else if (modo == 2)
+		else if (modo == Soneto)
 		{
 			int versos[4] = {4, 4, 3, 3};
 
@@ -303,7 +315,7 @@ int main()
 			file_.close();
 			system("espeak -v pt+m1 -s 100 -p 15 -g 8 -l 10 -f TextoGerado.txt");
 		}
-		else if (modo == 3)
+		else if (modo == TravaLingua)
 		{
 			std::set<int> proibido;
 			proibido.insert('w' - 'a');
