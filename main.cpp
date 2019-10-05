@@ -40,29 +40,32 @@ int main()
 	std::cin.tie(NULL);
 	std::ifstream Arquivo;
 	std::string ler;
+	
 	Arquivo.open("Banco.txt");
     if (Arquivo.fail()) {
         std::cout << "Erro: Banco.txt não econtrado!" << std::endl;
         return 1;
     }
+
 	V.push_back("/"); //barras indicam inicio e fim de palavras
+
 	while (Arquivo >> ler)
 	{
 		std::string silaba, palavra;
-		for (int i = 0; i < (int)ler.size(); i++)
+		for (char letra : ler)
 		{
-			ler[i] = tolower(ler[i]); //Trabalhamos apenas com letras minusculas
-			if (ler[i] == '-')
+			letra = tolower(letra); //Trabalhamos apenas com letras minusculas
+			if (letra == '-')
 			{
 				V.push_back(silaba);
 				silaba.clear();
 			}
 			else
 			{
-				if (ler[i] != '.')
+				if (letra != '.')
 				{
-					silaba += ler[i];
-					palavra += ler[i];
+					silaba += letra;
+					palavra += letra;
 				}
 			}
 		}
@@ -72,18 +75,21 @@ int main()
 		S.insert(palavra);
 		ler.clear();
 	}
+
     int barra = maxNum<int>();
-	for (int i = 0; i < (int)V.size(); i++)
+
+	for (auto palavra : V)
 	{
-		if (M.find(V[i]) == M.end())
+		if (M.find(palavra) == M.end())
 		{
-			if (V[i] == "/")
+			if (palavra == "/")
 				barra = cnt;
-			M.insert(make_pair(V[i], cnt)); // sorteamos inteiros, depois usamos seu equivalente em std::string para imprimir texto
-			Mrev.insert(make_pair(cnt, V[i]));
+			M.insert(make_pair(palavra, cnt)); // sorteamos inteiros, depois usamos seu equivalente em std::string para imprimir texto
+			Mrev.insert(make_pair(cnt, palavra));
 			cnt++;
 		}
 	}
+
 	for (int i = 1; i < (int)V.size(); i++)
 	{
 		std::string s1 = V[i - 1];
@@ -99,6 +105,7 @@ int main()
 			comeco_anag[s2[0] - 'a'].push_back(v2);
 		}
 	}
+
 	for (int i = 1; i < cnt; i++)
 	{
 		for (int j = 1; j < cnt; j++)
@@ -107,10 +114,12 @@ int main()
 			prob_rev[i][j] = (prob_rev[i][j] / soma_rev[i]) * SAMP;
 		}
 	}
+
 	srand(time(NULL));
 	std::cout << "Bem vindo ao Projeto BEABA 2.0\n";
 	std::cout.flush();
-	while (true)
+
+	for (;;)
 	{
 		std::cout << "1 -> Gerar acronimo\n";
 		std::cout.flush();
