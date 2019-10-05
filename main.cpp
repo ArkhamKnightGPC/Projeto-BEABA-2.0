@@ -106,8 +106,8 @@ int main()
 		{
 			if (palavra == "/")
 				barra = cnt;
-			M.insert(make_pair(palavra, cnt)); // sorteamos inteiros, depois usamos seu equivalente em std::string para imprimir texto
-			Mrev.insert(make_pair(cnt, palavra));
+			M.insert(std::make_pair(palavra, cnt)); // sorteamos inteiros, depois usamos seu equivalente em std::string para imprimir texto
+			Mrev.insert(std::make_pair(cnt, palavra));
 			cnt++;
 		}
 	}
