@@ -387,6 +387,7 @@ int main()
             default: {
                 std::cout << "Esperamos que tenha gostado, obrigado :)\n";
                 std::cout.flush();
+				std::this_thread::sleep_for(3s);
                 return 0;
             }
         }
