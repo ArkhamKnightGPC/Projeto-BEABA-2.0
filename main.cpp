@@ -23,8 +23,8 @@ struct RandEngine
 private:
     std::mt19937 randEngine;
 public:
-	uint32_t operator()() { return randEngine(); }
-	void seed(uint32_t seedVal) { randEngine.seed(seedVal); }
+	uint32_t operator() () { return randEngine(); }
+	void seed (uint32_t seedVal) { randEngine.seed(seedVal); }
 };
 
 RandEngine mtRand;
