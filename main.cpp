@@ -16,7 +16,7 @@ template <typename Tipo, int Comprimento>
 using vetor = std::array<Tipo, Comprimento>;
 
 template <typename Tipo>
-constexpr auto maxNum = []() { return std::numeric_limits<Tipo>::max(); };
+auto maxNum = []() { return std::numeric_limits<Tipo>::max(); };
 
 struct RandEngine
 {
@@ -324,21 +324,22 @@ int main()
             break;
 
             case TravaLingua: {
-                std::set<int> proibido;
-                proibido.insert('w' - 'a');
-                proibido.insert('y' - 'a');
-                proibido.insert('x' - 'a');
-                proibido.insert('k' - 'a');
-                proibido.insert('w' - 'a');
-                proibido.insert('q' - 'a');
-                proibido.insert('z' - 'a');
-                proibido.insert('j' - 'a');
-                proibido.insert('u' - 'a');
-                proibido.insert('o' - 'a');
-                proibido.insert('e' - 'a');
-                proibido.insert('h' - 'a');
-                proibido.insert('i' - 'a');
-                proibido.insert('a' - 'a');
+                const std::set<int> proibido {
+                    'w' - 'a',
+                    'y' - 'a',
+                    'x' - 'a',
+                    'k' - 'a',
+                    'w' - 'a',
+                    'q' - 'a',
+                    'z' - 'a',
+                    'j' - 'a',
+                    'u' - 'a',
+                    'o' - 'a',
+                    'e' - 'a',
+                    'h' - 'a',
+                    'i' - 'a',
+                    'a' - 'a' };
+                
                 int letra_rep;
                 do
                 {
